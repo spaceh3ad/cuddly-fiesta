@@ -10,15 +10,12 @@ let wallet;
 let web3 = new Web3("http://localhost:8545");
 web3.eth.handleRevert = true;
 
-let justiceNFT = new web3.eth.Contract(
-  jsonObject.JusticeNFTABI,
-  jsonObject.JusticeNFT_Address
-);
+let NFT = new web3.eth.Contract(jsonObject.NFTABI, jsonObject.NFT_Address);
 
-contractAddress.innerText = jsonObject.JusticeNFT_Address;
+contractAddress.innerText = jsonObject.NFT_Address;
 
 const initialize = async () => {
-  let ownedDocs = await justiceNFT.methods
+  let ownedDocs = await NFT.methods
     .getUserDocuments()
     .call({ from: wallet.address });
   console.log(ownedDocs);
@@ -67,7 +64,7 @@ const encodeData = async (fileContent) => {
   console.log(`encryptedDoc: ${JSON.stringify(encryptedDoc)}`);
 
   // mint NFT doc
-  let { transactionHash } = await justiceNFT.methods
+  let { transactionHash } = await NFT.methods
     .mint(JSON.stringify(encryptedDoc), 0)
     .send({
       from: wallet.address,
@@ -84,11 +81,11 @@ document.getElementById("retrieveAndDecrypt").onclick = async function () {
   let nftInfo;
   let nft;
 
-  let owner = await justiceNFT.methods.ownerOf(retrieveDocID.value).call();
+  let owner = await NFT.methods.ownerOf(retrieveDocID.value).call();
 
   if (owner != wallet.address) {
     console.log("Querer is not owner");
-    nftInfo = await justiceNFT.methods
+    nftInfo = await NFT.methods
       .signerToDocumentVerifyMapping(wallet.address, retrieveDocID.value)
       .call();
 
@@ -100,9 +97,7 @@ document.getElementById("retrieveAndDecrypt").onclick = async function () {
       return;
     }
   } else {
-    nftInfo = await justiceNFT.methods
-      .tokenMetadata(retrieveDocID.value)
-      .call();
+    nftInfo = await NFT.methods.tokenMetadata(retrieveDocID.value).call();
 
     nft = nftInfo.encryptedFile;
   }
@@ -122,7 +117,7 @@ document.getElementById("retrieveAndDecrypt").onclick = async function () {
 document.getElementById("requestSignature").onclick = async function () {
   console.log(signerAddress.value);
 
-  let nftInfo = await justiceNFT.methods
+  let nftInfo = await NFT.methods
     .tokenMetadata(signDocumentId.value)
     .call({ from: wallet.address });
 
@@ -136,7 +131,7 @@ document.getElementById("requestSignature").onclick = async function () {
 
   console.log(`encryptedDocDecrypted: ${encryptedDocDecrypted}`);
 
-  let { transactionHash } = await justiceNFT.methods
+  let { transactionHash } = await NFT.methods
     .addSigner(
       signDocumentId.value,
       signerAddress.value,
@@ -156,9 +151,7 @@ document.getElementById("requestSignature").onclick = async function () {
 document.getElementById("signDocument").onclick = async function () {
   console.log(documentId.value);
 
-  let hashedMessage = await justiceNFT.methods
-    .getMessageHash(documentId.value)
-    .call();
+  let hashedMessage = await NFT.methods.getMessageHash(documentId.value).call();
 
   console.log(hashedMessage);
 
@@ -169,7 +162,7 @@ document.getElementById("signDocument").onclick = async function () {
 
   let sig = Signature.innerText;
 
-  let { transactionHash } = await justiceNFT.methods
+  let { transactionHash } = await NFT.methods
     .signDocument(documentId.value, sig)
     .send({
       from: wallet.address,
@@ -182,7 +175,7 @@ document.getElementById("signDocument").onclick = async function () {
 };
 
 document.getElementById("verifySign").onclick = async function () {
-  let transactionHash = await justiceNFT.methods
+  let transactionHash = await NFT.methods
     .verifySigningOfDocument(signedDocumentId.value, addressOfSigner.value)
     .call();
 

@@ -5,8 +5,8 @@ import { ethers, config } from "hardhat";
 
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 
-import { JusticeNFT } from "../typechain-types/contracts/JusticeNFT";
-import { JusticeNFT__factory } from "../typechain-types/factories/contracts/JusticeNFT__factory";
+import { NFT } from "../typechain-types/contracts/JusticeNFT";
+import { NFT__factory } from "../typechain-types/factories/contracts/JusticeNFT__factory";
 
 import { readFileSync } from "fs";
 
@@ -17,8 +17,8 @@ import {
   // recoverTypedSignature_v4,
 } from "@metamask/eth-sig-util";
 
-describe("JusticeNFT", function () {
-  let justiceNFT: JusticeNFT;
+describe("NFT", function () {
+  let NFT: NFT;
   let deployer: SignerWithAddress;
   let lawyer: SignerWithAddress;
   let client: SignerWithAddress;
@@ -39,11 +39,11 @@ describe("JusticeNFT", function () {
     //   deployer.connect(ethers.provider)
     // ).deploy();
 
-    justiceNFT = await new JusticeNFT__factory(deployer).deploy();
+    NFT = await new NFT__factory(deployer).deploy();
   }
 
   describe("NFT Tests", function () {
-    it("Should allow to mint JusticeNFT", async function () {
+    it("Should allow to mint NFT", async function () {
       await loadFixture(deploy);
 
       const accounts = config.networks.hardhat.accounts;
@@ -67,11 +67,11 @@ describe("JusticeNFT", function () {
       });
 
       await expect(
-        justiceNFT
-          .connect(wallet.connect(ethers.provider))
-          .mint(encryptedFile, 0, { gasLimit: 1_000_000 })
+        NFT.connect(wallet.connect(ethers.provider)).mint(encryptedFile, 0, {
+          gasLimit: 1_000_000,
+        })
       )
-        .to.emit(justiceNFT, "DocumentCreation")
+        .to.emit(NFT, "DocumentCreation")
         .withArgs(1, wallet.address);
     });
   });

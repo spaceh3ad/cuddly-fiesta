@@ -32,7 +32,7 @@ const config: HardhatUserConfig = {
   abiExporter: {
     path: "../fe/src/contracts",
     runOnCompile: true,
-    only: ["JusticeNFT"],
+    only: ["NFT"],
     spacing: 2,
     // pretty: true,
     // format: "minimal",
