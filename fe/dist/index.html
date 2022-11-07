@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DEMO</title>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h3>NFT DEMO</h3>
+      <p>NFT contract address: <span id="contractAddress"></span></p>
+
+      <hr style="width: 50%; text-align: left; margin-left: 0" />
+      <hr style="width: 50%; text-align: left; margin-left: 0" />
+      <h4>Accounts Data</h4>
+
+      <button id="connectAcc1">Connect Account 1</button>
+      <button id="connectAcc2">Connect Account 2</button>
+      <button id="connectAcc3">Connect Account 3</button>
+      <hr style="width: 50%; text-align: left; margin-left: 0" />
+
+      <p>connectedAccount: <span id="connectedAccount"></span></p>
+      <p>Account balance: <span id="walletBalance"></span></p>
+      <p>Encryption key: <span id="encryptionKey"></span></p>
+
+      <hr style="width: 50%; text-align: left; margin-left: 0" />
+      <h4>Your documents</h4>
+      <span id="documents"></span>
+
+      <hr style="width: 50%; text-align: left; margin-left: 0" />
+      <h4>Mint NFT Document</h4>
+      <input
+        type="number"
+        placeholder="previousDocumentId"
+        id="encryptedMessageInput"
+      />
+      <input type="file" name="inputfile" id="inputfile" />
+      <p style="inline-size: 1400px; overflow-wrap: break-word">
+        <span id="actionMint"></span><br /><br />
+        txHash: <span id="tx"></span> <br /><br />
+      </p>
+
+      <hr style="width: 50%; text-align: left; margin-left: 0" />
+      <h4>Retrieve Document</h4>
+      <input type="number" placeholder="documentId" id="retrieveDocID" />
+      <button id="retrieveAndDecrypt">retrieveAndDecrypt</button>
+      <br /><br />
+      <p style="inline-size: 1400px; overflow-wrap: break-word">
+        <span id="actionRetrieve"></span>
+        <a style="display: none" href="" id="a"
+          >click here to download your file</a
+        >
+      </p>
+
+      <hr style="width: 50%; text-align: left; margin-left: 0" />
+      <hr style="width: 50%; text-align: left; margin-left: 0" />
+
+      <h4>requestSignature</h4>
+      <!-- <input type="text" placeholder="singatoryAddress" id="singatoryAddress" /> -->
+      <input type="number" placeholder="documentId" id="signDocumentId" />
+      <input type="text" placeholder="address" id="signerAddress" />
+      <input type="text" placeholder="encryptionKey" id="signerEncryptionKey" />
+      <button id="requestSignature">requestSignature</button>
+      <p>Transaction status: <span id="transactionStatus"></span></p>
+      <hr style="width: 50%; text-align: left; margin-left: 0" />
+
+      <h4>signDocument</h4>
+      <!-- <input type="text" placeholder="singatoryAddress" id="singatoryAddress" /> -->
+      <input type="number" placeholder="documentId" id="documentId" />
+      <button id="signDocument">signDocument</button>
+      <p>Signature: <span id="Signature"></span></p>
+      <p>Transaction status: <span id="transactionStatus2"></span></p>
+
+      <hr style="width: 50%; text-align: left; margin-left: 0" />
+
+      <h4>Verify Signing Document</h4>
+      <input type="text" placeholder="address" id="addressOfSigner" />
+      <input type="number" placeholder="documentId" id="signedDocumentId" />
+      <button id="verifySign">verifySign</button>
+      <p>Recovered Signer: <span id="recoveredSig"></span></p>
+    </div>
+    <script src="./main.js" defer></script>
+  </body>
+</html>
